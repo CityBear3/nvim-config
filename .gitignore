@@ -1,0 +1,15 @@
+# Lazy.nvim プラグインディレクトリ（自動ダウンロード）
+lazy/
+
+# バックアップファイル
+*.backup
+
+# Neovim キャッシュ・セッション
+*.shada
+shada/
+swap/
+undo/
+sessions/
+
+# ローカル設定（必要に応じて）
+# local.lua
