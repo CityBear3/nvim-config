@@ -1,6 +1,9 @@
 # Lazy.nvim プラグインディレクトリ（自動ダウンロード）
 lazy/
 
+# macOS
+.DS_Store
+
 # バックアップファイル
 *.backup
 
