@@ -43,7 +43,7 @@ keymap("i", "<C-f><C-f>", "<C-g>U<ESC><S-a>", opts)
 
 -- jjでESC
 keymap("i", "jj", "<ESC>", opts)
-keymap("t", "jj", "<C-\\><C-n>", opts)
+keymap("t", ";;", "<C-\\><C-n>", opts)
 
 -- Fern
 keymap("n", ",t", ":<C-u>Fern . -drawer -stay -keep -toggle -reveal=%<CR>", opts)
