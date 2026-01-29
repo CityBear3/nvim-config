@@ -98,6 +98,8 @@ vim.diagnostic.config({
 })
 
 
+vim.lsp.set_log_level("OFF")
+
 vim.lsp.enable(require("mason-lspconfig").get_installed_servers())
 
 require("fidget").setup {
