@@ -27,18 +27,44 @@ local on_attach = function(client, bufnr)
   local set = vim.keymap.set
   local opts = { buffer = bufnr }
 
-  set("n", "gd", "<cmd>lua vim.lsp.buf.definition()<CR>", opts)
-  set("n", "K", "<cmd>lua vim.lsp.buf.hover()<CR>", opts)
-  set("n", "<C-m>", "<cmd>lua vim.lsp.buf.signature_help()<CR>", opts)
-  set("n", "gy", "<cmd>lua vim.lsp.buf.type_definition()<CR>", opts)
-  set("n", "rn", "<cmd>lua vim.lsp.buf.rename()<CR>", opts)
-  set("n", "ma", "<cmd>lua vim.lsp.buf.code_action()<CR>", opts)
-  set("n", "gr", "<cmd>lua vim.lsp.buf.references()<CR>", opts)
+  -- set("n", "gd", "<cmd>lua vim.lsp.buf.definition()<CR>", opts)
+  -- set("n", "K", "<cmd>lua vim.lsp.buf.hover()<CR>", opts)
+  -- set("n", "<C-m>", "<cmd>lua vim.lsp.buf.signature_help()<CR>", opts)
+  -- set("n", "gy", "<cmd>lua vim.lsp.buf.type_definition()<CR>", opts)
+  -- set("n", "rn", "<cmd>lua vim.lsp.buf.rename()<CR>", opts)
+  -- set("n", "ma", "<cmd>lua vim.lsp.buf.code_action()<CR>", opts)
+  -- set("n", "gr", "<cmd>lua vim.lsp.buf.references()<CR>", opts)
 
-  -- 診断関連（修正）
-  set("n", "<leader>d", "<cmd>lua vim.diagnostic.open_float()<CR>", opts)
-  set("n", "[d", "<cmd>lua vim.diagnostic.goto_prev()<CR>", opts)
-  set("n", "]d", "<cmd>lua vim.diagnostic.goto_next()<CR>", opts)
+  -- Lspsaga Integration
+  set("n", "gd", "<cmd>Lspsaga goto_definition<CR>", opts)
+  set("n", "gt", "<cmd>Lspsaga goto_type_definition<CR>", opts)
+  set("n", "gr", "<cmd>Lspsaga lsp_finder<CR>", opts)
+  set("n", "gi", "<cmd>Lspsaga goto_implementation<CR>", opts)
+
+  -- Lspsaga UI features
+  set("n", "K", "<cmd>Lspsaga hover_doc<CR>", opts)
+  set("n", "<C-m>", "<cmd>Lspsaga signature_help<CR>", opts)
+  set("n", "ma", "<cmd>Lspsaga code_action<CR>", opts)
+  set("n", "rn", "<cmd>Lspsaga rename<CR>", opts)
+
+  -- Lspsaga outline
+  set("n", "<leader>o", "<cmd>Lspsaga outline<CR>", opts)
+
+  -- Lspsaga Call Hierarchy
+  set("n", "gci", "<cmd>Lspsaga incoming_calls<CR>", opts)
+  set("n", "gco", "<cmd>Lspsaga outgoing_calls<CR>", opts)
+
+  -- Lspsaga Peek functions (definition and Type Definition preview)
+  set("n", "gpd", "<cmd>Lspsaga peek_definition<CR>", opts)
+  set("n", "gpt", "<cmd>Lspsaga peek_type_definition<CR>", opts)
+
+  -- Lspsaga Diagnostic features
+  set("n", "<C-e>", "<cmd>Lspsaga show_line_diagnostics<CR>", opts)
+  set("n", "[d", "<cmd>Lspsaga diagnostic_jump_prev<CR>", opts)
+  set("n", "]d", "<cmd>Lspsaga diagnostic_jump_next<CR>", opts)
+
+  -- Toggle Terminal
+  set("n", "<leader>t", "<cmd>Lspsaga term_toggle<CR>", opts)
 end
 
 
@@ -67,7 +93,9 @@ vim.lsp.config("*", {
 })
 
 vim.lsp.config("rust_analyzer", {
-  settings = {
+   on_attach = on_attach,
+   capabilities = capabilities,
+   settings = {
     ["rust-analyzer"] = {
       check = {
         command = "clippy",
