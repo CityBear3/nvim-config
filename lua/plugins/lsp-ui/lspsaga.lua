@@ -32,6 +32,9 @@ return {
           auto_preview = true,
         },
       })
+
+      -- Toggle Terminal (LSP非依存)
+      vim.keymap.set({"n", "t"}, "<leader>t", "<cmd>Lspsaga term_toggle<CR>")
     end,
   },
 }

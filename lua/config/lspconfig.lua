@@ -38,7 +38,7 @@ local on_attach = function(client, bufnr)
   -- Lspsaga Integration
   set("n", "gd", "<cmd>Lspsaga goto_definition<CR>", opts)
   set("n", "gt", "<cmd>Lspsaga goto_type_definition<CR>", opts)
-  set("n", "gr", "<cmd>Lspsaga lsp_finder<CR>", opts)
+  set("n", "gr", "<cmd>Lspsaga finder<CR>", opts)
   set("n", "gi", "<cmd>Lspsaga goto_implementation<CR>", opts)
 
   -- Lspsaga UI features
@@ -62,9 +62,6 @@ local on_attach = function(client, bufnr)
   set("n", "<C-e>", "<cmd>Lspsaga show_line_diagnostics<CR>", opts)
   set("n", "[d", "<cmd>Lspsaga diagnostic_jump_prev<CR>", opts)
   set("n", "]d", "<cmd>Lspsaga diagnostic_jump_next<CR>", opts)
-
-  -- Toggle Terminal
-  set("n", "<leader>t", "<cmd>Lspsaga term_toggle<CR>", opts)
 end
 
 
