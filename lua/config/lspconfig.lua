@@ -59,7 +59,7 @@ local on_attach = function(client, bufnr)
   set("n", "gpt", "<cmd>Lspsaga peek_type_definition<CR>", opts)
 
   -- Lspsaga Diagnostic features
-  set("n", "<C-e>", "<cmd>Lspsaga show_line_diagnostics<CR>", opts)
+  set("n", "gl", "<cmd>Lspsaga show_line_diagnostics<CR>", opts)
   set("n", "[d", "<cmd>Lspsaga diagnostic_jump_prev<CR>", opts)
   set("n", "]d", "<cmd>Lspsaga diagnostic_jump_next<CR>", opts)
 end
