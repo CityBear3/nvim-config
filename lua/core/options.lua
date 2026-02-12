@@ -44,7 +44,7 @@ vim.cmd("syntax enable")
 -- コメントの色
 vim.cmd("hi Comment ctermfg=lightgreen")
 -- true color設定
-opt.termguicolors = false
+opt.termguicolors = true
 
 -- Tab系
 -- 不可視文字を可視化(タブが「▸-」と表示される)

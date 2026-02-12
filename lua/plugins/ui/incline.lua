@@ -1,15 +1,15 @@
 return {
   'b0o/incline.nvim',
   config = function()
-    vim.opt.termguicolors = false
+    -- vim.opt.termguicolors = false
     local helpers = require('incline.helpers')
     local devicons = require('nvim-web-devicons')
 
     -- incline用のハイライトグループを作成
-    vim.api.nvim_set_hl(0, 'InclineBg', { ctermbg = 238 })  -- Dracula current line風
-    vim.api.nvim_set_hl(0, 'InclineGitAdd', { ctermfg = 10, ctermbg = 238 })     -- 緑
-    vim.api.nvim_set_hl(0, 'InclineGitChange', { ctermfg = 11, ctermbg = 238 })  -- 黄
-    vim.api.nvim_set_hl(0, 'InclineGitDelete', { ctermfg = 9, ctermbg = 238 })   -- 赤
+    -- vim.api.nvim_set_hl(0, 'InclineBg', { ctermbg = 238 })  -- Dracula current line風
+    -- vim.api.nvim_set_hl(0, 'InclineGitAdd', { ctermfg = 10, ctermbg = 238 })     -- 緑
+    -- vim.api.nvim_set_hl(0, 'InclineGitChange', { ctermfg = 11, ctermbg = 238 })  -- 黄
+    -- vim.api.nvim_set_hl(0, 'InclineGitDelete', { ctermfg = 9, ctermbg = 238 })   -- 赤
 
     require('incline').setup {
       window = {
@@ -23,6 +23,7 @@ return {
         end
         local ft_icon, ft_color = devicons.get_icon_color(filename)
         local modified = vim.bo[props.buf].modified and ' ●' or ''
+
 
         -- Diagnostic label (公式の方法)
         local function get_diagnostic_label()
@@ -50,30 +51,40 @@ return {
             return label
           end
           local added, changed, removed = summary[1], summary[2], summary[3]
+          -- Diff Highlight
+          local add_fg = vim.fn.synIDattr(vim.fn.synIDtrans(vim.fn.hlID('DiffAdd')), 'fg#')
+          local change_fg = vim.fn.synIDattr(vim.fn.synIDtrans(vim.fn.hlID('DiffChange')), 'fg#')
+          local delete_fg = vim.fn.synIDattr(vim.fn.synIDtrans(vim.fn.hlID('DiffDelete')), 'fg#')
+
           if added and added > 0 then
-            table.insert(label, { '+' .. added .. ' ', group = 'InclineGitAdd' })
+            table.insert(label, { '+' .. added .. ' ', guifg = add_fg ~= '' and add_fg or '#50fa7b' })
           end
           if changed and changed > 0 then
-            table.insert(label, { '~' .. changed .. ' ', group = 'InclineGitChange' })
+            table.insert(label, { '~' .. changed .. ' ', guifg = change_fg ~= '' and change_fg or '#f1fa8c' })
           end
           if removed and removed > 0 then
-            table.insert(label, { '-' .. removed .. ' ', group = 'InclineGitDelete' })
+            table.insert(label, { '-' .. removed .. ' ', guifg = delete_fg ~= '' and delete_fg or '#ff5555' })
           end
           return label
         end
         local git = get_git_diff()
 
+        -- Statusline Bg Color
+        local statusline_bg = vim.fn.synIDattr(vim.fn.synIDtrans(vim.fn.hlID('StatusLine')), 'bg#')
+        if statusline_bg == '' then
+          statusline_bg = '#44406e'  -- Fallback color
+        end
+
         return {
-          { ' ' },
           diag,
-          #diag > 0 and #git > 0 and { '│ ' } or '',
+          #diag > 0 and #git > 0 and '| ' or '',
           git,
-          (#diag > 0 or #git > 0) and { '│ ' } or '',
-          ft_icon and { ft_icon, ' ', guibg = ft_color, guifg = helpers.contrast_color(ft_color) } or '',
+          (#diag > 0 or #git > 0) and '│ ' or '',
+          ft_icon and { ' ', ft_icon, ' ', guibg = ft_color, guifg = helpers.contrast_color(ft_color) } or '',
           { filename, gui = modified and 'bold,italic' or 'bold' },
           modified,
           ' ',
-          group = 'InclineBg',
+          guibg = statusline_bg,
         }
       end,
     }

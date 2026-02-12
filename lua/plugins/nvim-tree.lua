@@ -7,7 +7,7 @@ return {
   },
   init = function()
     -- termguicolorsを維持
-    vim.opt.termguicolors = false
+    -- vim.opt.termguicolors = false
   end,
   config = function()
     local ns = vim.api.nvim_create_namespace("nvim-tree-colors")

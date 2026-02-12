@@ -4,7 +4,7 @@ return {
   dependencies = { "folke/snacks.nvim" },
   config = function()
     require("claudecode").setup()
-    vim.opt.termguicolors = false
+    -- vim.opt.termguicolors = false
   end,
   keys = {
     { "<leader>a", nil, desc = "AI/Claude Code" },
