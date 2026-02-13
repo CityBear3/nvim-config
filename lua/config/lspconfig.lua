@@ -39,7 +39,7 @@ local on_attach = function(client, bufnr)
   set("n", "gd", "<cmd>Lspsaga goto_definition<CR>", opts)
   set("n", "gt", "<cmd>Lspsaga goto_type_definition<CR>", opts)
   set("n", "gr", "<cmd>Lspsaga finder<CR>", opts)
-  set("n", "gi", "<cmd>Lspsaga goto_implementation<CR>", opts)
+  set("n", "gi", "<cmd>Telescope lsp_implementations<CR>", opts)
 
   -- Lspsaga UI features
   set("n", "K", "<cmd>Lspsaga hover_doc<CR>", opts)
