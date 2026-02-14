@@ -33,6 +33,9 @@ return {
         },
       })
 
+      -- SagaModule が Exception(jb.nvimでundercurl付き)にリンクされるのを回避
+      vim.api.nvim_set_hl(0, 'SagaModule', { link = 'Keyword' })
+
       -- Toggle Terminal (LSP非依存)
       vim.keymap.set({"n", "t"}, "<leader>t", "<cmd>Lspsaga term_toggle<CR>")
     end,
