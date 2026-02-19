@@ -37,7 +37,7 @@ return {
       vim.api.nvim_set_hl(0, 'SagaModule', { link = 'Keyword' })
 
       -- Toggle Terminal (LSP非依存)
-      vim.keymap.set({"n", "t"}, "<leader>t", "<cmd>Lspsaga term_toggle<CR>")
+      vim.keymap.set({"n", "t"}, [[<C-\><C-t>]], "<cmd>Lspsaga term_toggle<CR>")
     end,
   },
 }
