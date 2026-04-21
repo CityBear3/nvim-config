@@ -68,3 +68,14 @@ opt.incsearch = true
 opt.wrapscan = true
 -- 検索語をハイライト表示
 opt.hlsearch = true
+
+-- その他
+-- rust-srcを開いた場合は読み取り専用にする
+vim.api.nvim_create_autocmd("BufRead", {                                                                          
+  pattern = "*/rustlib/*",
+  callback = function()                                                                                           
+    vim.bo.readonly = true
+    vim.bo.modifiable = false                                                                                     
+  end,                                                                                                            
+})
+
