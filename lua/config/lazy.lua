@@ -26,6 +26,7 @@ require("lazy").setup({
     { import = "plugins.git" },
     { import = "plugins.ui" },
     { import = "plugins.telescope" },
+    { import = "plugins.copilot" },
   },
   checker = { enabled = true },
 })
