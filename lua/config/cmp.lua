@@ -20,7 +20,7 @@ cmp.setup({
     ["<C-n>"] = cmp.mapping.select_next_item(), --Ctrl+nで補完欄を一つ下に移動
     ['<C-l>'] = cmp.mapping.complete(),
     ['<C-e>'] = cmp.mapping.abort(),
-    ["<CR>"] = cmp.mapping.confirm({ select = true }),--Ctrl+yで補完を選択確定
+    ["<CR>"] = cmp.mapping.confirm({ select = false }),--Ctrl+yで補完を選択確定
   }),
   experimental = {
     ghost_text = false,
