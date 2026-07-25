@@ -50,6 +50,11 @@ return {
       },
     })
 
+    vim.keymap.set("n", "<leader>e", "<cmd>NvimTreeToggle<CR>", {
+      desc = "Toggle file explorer",
+      silent = true,
+    })
+
     -- 起動時に自動で開く
     vim.api.nvim_create_autocmd("VimEnter", {
       callback = function(data)
