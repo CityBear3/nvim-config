@@ -70,12 +70,51 @@ opt.wrapscan = true
 opt.hlsearch = true
 
 -- その他
--- rust-srcを開いた場合は読み取り専用にする
-vim.api.nvim_create_autocmd("BufRead", {                                                                          
-  pattern = "*/rustlib/*",
-  callback = function()                                                                                           
-    vim.bo.readonly = true
-    vim.bo.modifiable = false                                                                                     
-  end,                                                                                                            
-})
+-- 言語ごとの保護対象を登録する。判定と編集制限は core.readonly が担当する
+local readonly_rules = { directories = {}, path_fragments = {} }
 
+local function protect_directory(path)
+  if path and path ~= "" then
+    readonly_rules.directories[#readonly_rules.directories + 1] = path
+  end
+end
+
+local function protect_path_fragment(fragment)
+  readonly_rules.path_fragments[#readonly_rules.path_fragments + 1] = fragment
+end
+
+-- Rust
+protect_path_fragment("/rustlib/")
+local cargo_home = vim.env.CARGO_HOME
+if not cargo_home or cargo_home == "" then
+  cargo_home = vim.fn.expand("~/.cargo")
+end
+protect_directory(cargo_home .. "/registry/src")
+protect_directory(cargo_home .. "/git/checkouts")
+
+-- Go
+if vim.fn.executable("go") == 1 then
+  local go_paths = {}
+  local job = vim.fn.jobstart({ "go", "env", "GOROOT", "GOMODCACHE" }, {
+    -- パスの確認でツールチェーンを自動ダウンロードしない
+    env = { GOTOOLCHAIN = "local" },
+    stdout_buffered = true,
+    on_stdout = function(_, data)
+      go_paths = data
+    end,
+  })
+  if job > 0 then
+    -- Go の取得に失敗しても起動や Rust の保護を妨げない
+    local status = vim.fn.jobwait({ job }, 1000)[1]
+    if status == -1 then
+      vim.fn.jobstop(job)
+    elseif status == 0 then
+      if go_paths[1] and go_paths[1] ~= "" then
+        protect_directory(go_paths[1] .. "/src")
+      end
+      protect_directory(go_paths[2])
+    end
+  end
+end
+
+require("core.readonly").setup(readonly_rules)
